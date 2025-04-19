@@ -1,4 +1,5 @@
 Introduction
+
 This application is designed to continuously record journal entries, where the user can then manipulate said entries through various
 commands. It enables the user to create, delete, or view their entries with efficiency by guiding the user through a series of easy to
 follow prompts.
