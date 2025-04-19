@@ -11,4 +11,4 @@ This app includes a continuous journal where you can create, delete, or view sto
 
 
 
-- Ruby version: `3.2.1`
+
