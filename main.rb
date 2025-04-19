@@ -1,6 +1,4 @@
-require "minitest/autorun"
-
-class Journal < Minitest::Test
+class Journal 
   attr_accessor :reply
   @@collection = {}
 
@@ -13,10 +11,10 @@ class Journal < Minitest::Test
       puts "Welcome. What would you like to do today?(type 'create', 'delete', 'view', or 'exit')"
       @reply = gets.chomp
       case @reply.downcase
-      when 'create' then self.create
-      when 'delete' then self.deletion
-      when 'view' then self.view
-      when 'exit' then break
+        when 'create' then self.create
+        when 'delete' then self.deletion
+        when 'view' then self.view
+        when 'exit' then break
       else
         puts "Please type a given response."
       end
@@ -24,22 +22,64 @@ class Journal < Minitest::Test
   end
 
   def create
-    puts "Enter the date for your entry.(00-00-00)"
-    date = gets.chomp
+    puts "Enter the date for your entry."
+    date = self.ask_date
     puts "What's on your mind?"
     body = gets.chomp
     @@collection[date] = body
   end
 
+  def ask_date
+    loop do
+      puts "Month?(00)"
+      @month = gets.chomp
+      if @month =~ /[a-z]/
+        puts "Please use numbers."
+      elsif @month.length == 2 && @month.to_i <= 12
+        break
+      else
+        puts "Invalid. Please follow the format (00)"
+      end
+    end
+
+    loop do
+      puts "Day?(00)"
+      @day = gets.chomp
+      if @day =~ /[a-z]/
+        puts "Please use numbers."
+      elsif @day.length == 2 && @day.to_i <= 31
+        break
+      else
+        puts "Invalid. Please follow the format (00)"
+      end
+    end
+
+    loop do
+      puts "Year?(00)"
+      @year = gets.chomp
+      if @year =~ /[a-z]/
+        puts "Please use numbers."
+      elsif @year.length == 2
+        break
+      else
+        puts "Invalid. Please follow the format (00)"
+      end
+    end
+    return "#{@month}-#{@day}-#{@year}"
+  end
+
   def deletion
     puts @@collection.keys
-    puts "Enter the date of the entry you wish to delete.(00-00-00)"
-    date = gets.chomp
-    if @@collection.keys.include?(date)
-      @@collection.delete(date)
-      puts "Entry deleted."
-    else
-      puts "Date not found. Try another one."
+    loop do
+      puts "Enter the date of the entry you wish to delete.(00-00-00; please include dashes)"
+      date = gets.chomp
+      if @@collection.keys.include?(date)
+        @@collection.delete(date)
+        puts "Entry deleted."
+        break
+      else
+        puts "Date not found. Try another one."
+      end
     end
   end
 
@@ -49,13 +89,20 @@ class Journal < Minitest::Test
       puts "Would you like to view an entry?(type 'yes' or 'no')"
       @reply = gets.chomp
       if @reply.downcase == 'yes'
-        puts "Enter the date of an entry you'd like to view.(00-00-00)"
-        date = gets.chomp
-        unless @@collection.include?(date)
-          puts "Date not found. Try another one."
-        else
-          puts @@collection[date]
+        loop do
+          puts "Enter the date of an entry you'd like to view.(00-00-00; please include dashes)"
+          date = gets.chomp
+          unless @@collection.include?(date)
+            puts "Invalid entry. Try another one."
+          else
+            puts @@collection[date]
+            break
+          end
         end
+      elsif @reply == 'no'
+        puts "Returning home."
+      else
+        puts "Invalid response. Returning home."
       end
     else
       puts "There are no entries. Enter 'create' to make a new one."
