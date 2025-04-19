@@ -8,4 +8,7 @@ This app includes a continuous journal where you can create, delete, or view sto
 - **view:** displays previously recorded entries, followed by a request to view one
 - **exit:** stops the app
 
+
+
+
 - Ruby version: `3.2.1`
